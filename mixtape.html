@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Usagi's Mixtape 💖</title>
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(to bottom, #ffd6e8, #ffeaf5);
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+      color: #d63384;
+      text-align: center;
+      overflow-x: hidden;
+      padding: 40px 20px;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      animation: fadeIn 1s ease-out forwards;
+    }
+
+    .note {
+      font-size: 1.1em;
+      font-style: italic;
+      margin-bottom: 30px;
+      animation: fadeIn 1.4s ease-out forwards;
+    }
+
+    .player-frame {
+      border: 3px dashed #ff99cc;
+      padding: 20px;
+      border-radius: 25px;
+      background: #fff0f7;
+      box-shadow: 0 0 20px rgba(255, 182, 193, 0.4);
+      width: 90%;
+      max-width: 420px;
+      margin: auto;
+      animation: popIn 1.2s ease-out forwards;
+      position: relative;
+      z-index: 1;
+    }
+
+    .player-frame::before {
+      content: "";
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      width: 60px;
+      height: 60px;
+      background: url('https://i.imgur.com/4M7IWwP.png') center/contain no-repeat;
+      z-index: 2;
+    }
+
+    @keyframes popIn {
+      0% { transform: scale(0.8); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(-10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, #fff, #ffcce5);
+      border-radius: 50%;
+      animation: sparkle 1s ease-out forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+
+    @keyframes sparkle {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(2); }
+    }
+
+    .back {
+      margin-top: 60px;
+    }
+
+    .back a {
+      text-decoration: none;
+      color: white;
+      background-color: #d63384;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>💖 Usagi's Mixtape Room 💖</h1>
+  <p class="note">Each track here is a little love letter for you, HAPPY BIRTHDAY HONEYYY 🎶</p>
+  <div class="player-frame">
+    <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/2qrOI76kyznlEmxqyS6dJr" width="100%" height="380" frameborder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+  </div>
+  <div class="back">
+    <a href="index.html">← Back Home</a>
+  </div>
+
+  <script>
+    function sparkleEffect() {
+      const sparkle = document.createElement('div');
+      sparkle.className = 'sparkle';
+      sparkle.style.top = `${Math.random() * window.innerHeight}px`;
+      sparkle.style.left = `${Math.random() * window.innerWidth}px`;
+      document.body.appendChild(sparkle);
+      setTimeout(() => sparkle.remove(), 1000);
+    }
+
+    setInterval(sparkleEffect, 400);
+  </script>
+
+  <footer class="footer">
+    <p class="heart">💖 You are loved. Always. 💖</p>
+
+</body>
+</html>

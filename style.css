@@ -1,0 +1,249 @@
+
+  /* Base styles for all pages */
+  body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive;
+    background-color: #ffe6f0;
+    color: #333;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+
+  h1 {
+    color: #d63384;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+  }
+
+  .back {
+    margin-top: 40px;
+  }
+
+  .back a {
+    text-decoration: none;
+    color: white;
+    background-color: #d63384;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-weight: bold;
+    display: inline-block;
+  }
+
+  /* Gallery & Flip Cards */
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin: auto;
+    max-width: 1200px;
+  }
+
+  .gallery .card {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    perspective: 1000px;
+    cursor: pointer;
+  }
+
+  .card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.8s;
+    transform-style: preserve-3d;
+    position: relative;
+  }
+
+  .card.flipped .card-inner {
+    transform: rotateY(180deg);
+  }
+
+  .card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    backface-visibility: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  }
+
+  .card-front {
+    background: url('https://i.imgur.com/OYQdvlP.png') center/cover no-repeat;
+    background-color: #fff;
+  }
+
+  .card-back {
+    background-color: #fff;
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+  }
+
+  .card-back img, .card-back video {
+    width: 90%;
+    height: auto;
+    border-radius: 12px;
+    margin-bottom: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    object-fit: cover;
+  }
+
+  .comment {
+    font-size: 0.95em;
+    color: #d63384;
+    font-style: italic;
+  }
+
+  /* Secret Message */
+  .secret-message {
+    margin: 50px auto;
+    max-width: 500px;
+    background: #ffb3d9;
+    border: 2px dashed #d63384;
+    border-radius: 20px;
+    padding: 15px 25px;
+    color: #a61b5c;
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+    transition: all 0.3s ease-in-out;
+  }
+
+  .secret-message .hidden-text {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.6s ease;
+    margin-top: 10px;
+    color: #87004e;
+  }
+
+  .secret-message.revealed .hidden-text {
+    max-height: 200px;
+    opacity: 1;
+  }
+
+  /* Video player */
+  .video-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 720px;
+    margin: auto;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 0 20px rgba(255, 182, 193, 0.4);
+  }
+
+  .video-wrapper video {
+    width: 100%;
+    display: block;
+  }
+
+  .video-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: rgba(255, 192, 203, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    text-align: center;
+    color: #d63384;
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+
+  .play-btn {
+    width: 70px;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 5px #ff69b4);
+  }
+
+  /* Sparkle effect */
+  .sparkle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: radial-gradient(circle, #fff, #ffccf5);
+    border-radius: 50%;
+    animation: sparkle 1s ease-out forwards;
+    pointer-events: none;
+    z-index: 999;
+  }
+
+  @keyframes sparkle {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(2); }
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 900px) {
+    .gallery {
+      max-width: 98vw;
+      gap: 12px;
+    }
+    .gallery .card {
+      width: 45vw;
+      min-width: 180px;
+      max-width: 320px;
+      height: 300px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 1.5em;
+    }
+    .gallery {
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      max-width: 100vw;
+    }
+    .gallery .card {
+      width: 95vw !important;
+      min-width: unset !important;
+      max-width: 100vw !important;
+      height: auto !important;
+    }
+    .card-back img, .card-back video {
+      width: 98vw;
+      max-width: 98vw;
+      height: auto;
+    }
+    .secret-message {
+      font-size: 0.95em;
+      padding: 12px 8px;
+      max-width: 98vw;
+    }
+    .back a {
+      font-size: 1em;
+      padding: 8px 10px;
+    }
+  }
+
+  @media (max-width: 400px) {
+    h1 {
+      font-size: 1.1em;
+    }
+    .secret-message {
+      font-size: 0.85em;
+      padding: 8px 4px;
+    }
+    .back a {
+      font-size: 0.9em;
+      padding: 6px 6px;
+    }
+  }
+

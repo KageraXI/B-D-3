@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday, Usagi 💖</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Comic Sans MS', cursive;
+      background: linear-gradient(to bottom right, #ffe6f0, #ffd6f6);
+      overflow: hidden;
+    }
+    header {
+      text-align: center;
+      padding: 100px 20px 60px;
+      background-color: #ffb6d9;
+      color: white;
+    }
+    header h1 {
+      font-size: 3.5em;
+    }
+    nav {
+      text-align: center;
+      background-color: #ffcce5;
+      padding: 15px;
+    }
+    nav a {
+      margin: 0 15px;
+      text-decoration: none;
+      color: #d63384;
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+    .content {
+      text-align: center;
+      padding: 50px 20px;
+      font-size: 1.3em;
+      color: #444;
+    }
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      transform: rotate(45deg);
+      animation: float 10s infinite;
+    }
+    .heart::before,
+    .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: pink;
+      border-radius: 50%;
+    }
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+    @keyframes float {
+      0% {
+        transform: translateY(0) rotate(45deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Happy Birthday USAGIIII!!! 💗</h1>
+    <p>Welcome to your little surprise, My Love 🐰</p>
+  </header>
+
+  <nav>
+    <a href="love.html">💌  Open Me </a>
+    <a href="gallery.html">📸 Gallery</a>
+    <a href="video.html">🎥 Special Message</a>
+  
+    <a href="secret.html">🎁 Secret</a>
+  </nav>
+
+  <div class="content">
+    <p>This space is made just for you. Take your time, enjoy the pink vibes, and feel all the love 💖</p>
+  </div>
+
+  <!-- Floating hearts animation -->
+  <script>
+    const heartCount = 30;
+    for (let i = 0; i < heartCount; i++) {
+      const heart = document.createElement('div');
+      heart.className = 'heart';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (5 + Math.random() * 5) + 's';
+      document.body.appendChild(heart);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gallery 📸</title>
+  <style>
+    body {
+      margin: 0;
+      font-family:'Comic Sans MS', cursive;
+      background-color: #ffe6f0;
+      color: #333;
+      text-align: center;
+      padding: 20px;
+      overflow-x: hidden;
+    }
+    h1 {
+      color: #d63384;
+      margin-bottom: 30px;
+    }
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 40px;
+    }
+    .gallery .card {
+      position: relative;
+      width: 300px;
+      height: 420px;
+      perspective: 1000px;
+      cursor: pointer;
+    }
+    .card-inner {
+      width: 100%;
+      height: 100%;
+      transition: transform 0.8s;
+      transform-style: preserve-3d;
+      position: relative;
+    }
+    .card.flipped .card-inner {
+      transform: rotateY(180deg);
+    }
+    .card-front, .card-back {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 15px;
+      backface-visibility: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .card-front {
+      background: url('Images/H-K.png') center/70% no-repeat, #fff;
+      /* If you want to use the online image, use:
+      background: url('https://pngimg.com/d/bunny_PNG2417.png') center/70% no-repeat, #fff;
+      */
+    }
+    .card-back {
+      background-color: #fff;
+      transform: rotateY(180deg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+    }
+    .card-back img, .card-back video {
+      width: 95%;
+      height: 260px; /* or set to 100% for full height */
+      object-fit: cover;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    .comment {
+      font-size: 0.95em;
+      color: #d63384;
+      font-style: italic;
+    }
+    .back {
+      margin-top: 80px;
+      text-align: center;
+    }
+    .back a {
+      text-decoration: none;
+      color: white;
+      background-color: #d63384;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      padding-top: 60px;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.8);
+    }
+    .modal-content {
+      margin: auto;
+      display: block;
+      max-width: 80vw;
+      max-height: 80vh;
+      border-radius: 15px;
+      box-shadow: 0 5px 30px rgba(0,0,0,0.3);
+      animation: zoomIn 0.3s;
+    }
+    @keyframes zoomIn {
+      from {transform: scale(0.7);}
+      to {transform: scale(1);}
+    }
+    .close {
+      position: absolute;
+      top: 30px;
+      right: 50px;
+      color: #fff;
+      font-size: 40px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1001;
+    }
+    .sparkle {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background: radial-gradient(circle, #fff, #ffccf5);
+      border-radius: 50%;
+      animation: sparkle 1s ease-out forwards;
+      pointer-events: none;
+      z-index: 999;
+    }
+    @keyframes sparkle {
+      from { opacity: 1; transform: scale(1); }
+      to { opacity: 0; transform: scale(2); }
+    }
+    .reveal-btn {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+    .reveal-btn:hover {
+      background-color: #c32a6d;
+    }
+    .hidden-message {
+      display: none;
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #333;
+      background-color: #ffe6f0;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    .hidden-message.show {
+      display: block;
+    }
+    .secret-message {
+  margin: 50px auto;
+  max-width: 500px;
+  background: #ffb3d9;
+  border: 2px dashed #d63384;
+  border-radius: 20px;
+  padding: 15px 25px;
+  color: #a61b5c;
+  font-weight: bold;
+  font-style: italic;
+  font-size: 1em;
+  cursor: pointer;
+  box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+  transition: all 0.3s ease-in-out;
+}
+
+.secret-message:hover {
+  box-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+  transform: scale(1.02);
+}
+
+.secret-message .hidden-text {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transition: all 0.6s ease;
+  margin-top: 10px;
+  color: #87004e;
+}
+
+.secret-message.revealed .hidden-text {
+  max-height: 200px;
+  opacity: 1;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Your Gallery 💕</h1>
+  <div class="gallery">
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front"></div>
+        <div class="card-back">
+          <img src="Images/Pic1.jpg" alt="Surprise 1">
+          <div class="comment">
+            <img src="Images/Omenheart animation.webp" alt="Omenheart" style="height:2.5em; width:2.5em; vertical-align:-0.2em; margin-left:2px;">
+            For the way you make me look at you
+          </div>
+          <div class="hidden-message">
+            You are my favorite surprise! 💖
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front"></div>
+        <div class="card-back">
+          <img src="Images/pic2.jpg" alt="Surprise 2">
+          <div class="comment"><img src="Images/Wow.webp" alt="Animated Wow" style="height:2.5em; width:2.5em; vertical-align:-0.2em; margin-left:2px;">
+            For those gorgeous mesmerizing green eyes & how chokeable you are   </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front"></div>
+        <div class="card-back">
+          <img src="Images/PIC3.jpg" alt="Surprise 3">
+          <div class="comment">For the love you show in " BIG "  things<img src="Images/smirk.png" alt="Animated hearts" style="height:2.5em; width:2.5em; vertical-align:-0.2em; margin-left:2px;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-inner">
+        <div class="card-front"></div>
+        <div class="card-back">
+  <video src="Images/PIC4.mp4" controls autoplay loop muted style="width:90%;border-radius:12px;box-shadow:0 5px 15px rgba(0,0,0,0.2);margin-bottom:10px;"></video>
+  <div class="comment"><img src="Images/Lick.webp" alt="Animated Lick" style="height:2.5em; width:2.5em; vertical-align:-0.2em; margin-left:2px;"> And for how exquisitely alluring & delicious you look 
+  <p>(even Han would approve )</p> </div>
+</div>
+      </div>
+    </div>
+  </div> <!-- End of .gallery -->
+
+  <div class="secret-message" onclick="revealMessage(this)">
+    💌 Click Here
+    <div class="hidden-text">
+      For every time you lit up my days, my nights, and even my darkest hours — thank you for being so kind, so sweet, so caring… and for teaching me what it truly means to love someone. 🐰💖<br>
+      Every little moment with you is my favorite one.
+    </div>
+  </div>
+
+  <div class="back">
+    <a href="video.html">Next →</a>
+  </div>
+
+  <div id="imgModal" class="modal">
+    <span class="close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+  <audio id="flipSound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_d80e8b7885.mp3?filename=card-flip-1-89169.mp3"></audio>
+
+  <script>
+    const modal = document.getElementById('imgModal');
+    const modalImg = document.getElementById('modalImg');
+    const closeBtn = document.querySelector('.close');
+    const flipSound = document.getElementById('flipSound');
+
+    document.querySelectorAll('.card').forEach(card => {
+      card.addEventListener('click', () => {
+        card.classList.toggle('flipped');
+        flipSound.currentTime = 0;
+        flipSound.play();
+        const sparkle = document.createElement('div');
+        sparkle.className = 'sparkle';
+        sparkle.style.top = `${Math.random() * window.innerHeight}px`;
+        sparkle.style.left = `${Math.random() * window.innerWidth}px`;
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+      });
+    });
+
+    document.querySelectorAll('.card-back img').forEach(img => {
+      img.onclick = function (e) {
+        e.stopPropagation();
+        modal.style.display = "block";
+        modalImg.src = this.src;
+      }
+    });
+
+    closeBtn.onclick = function () {
+      modal.style.display = "none";
+    }
+
+    modal.onclick = function (e) {
+      if (e.target === modal) {
+        modal.style.display = "none";
+      }
+    }
+
+    function revealMessage(el) {
+      el.classList.toggle('revealed');
+    }
+  </script>
+</body>
+</html>
